@@ -2,12 +2,12 @@ package com.hotel;
 
 import com.hotel.model.*;
 import com.hotel.service.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class App {
+
     public static class ReservaInfo {
         private Cliente cliente;
         private HabitacionGeneral<?> habitacion;
@@ -35,6 +35,10 @@ public class App {
 
         public LocalDate getFechaFin() {
             return fechaFin;
+        }
+
+        public long getDias() {
+            return java.time.temporal.ChronoUnit.DAYS.between(fechaInicio, fechaFin);
         }
     }
 
@@ -70,40 +74,23 @@ public class App {
         ReservaInfo reservaInfo1 = new ReservaInfo(cliente1, habitacionSuite, LocalDate.of(2023, 6, 1), LocalDate.of(2023, 6, 10));
         ReservaInfo reservaInfo2 = new ReservaInfo(cliente2, habitacionDoble, LocalDate.of(2023, 6, 5), LocalDate.of(2023, 6, 15));
         ReservaInfo reservaInfo3 = new ReservaInfo(cliente3, habitacionSimple, LocalDate.of(2023, 6, 9), LocalDate.of(2023, 6, 12));
-
-        System.out.println("Realizando reserva para " + reservaInfo1.getCliente().getNombre());
-        if (gestorReservas.realizarReserva(reservaInfo1.getCliente(), reservaInfo1.getHabitacion(), reservaInfo1.getFechaInicio(), reservaInfo1.getFechaFin())) {
-            System.out.println("Reserva realizada con éxito");
-        } else {
-            System.out.println("No se pudo realizar la reserva");
-        }
-
-        System.out.println("Realizando reserva para " + reservaInfo2.getCliente().getNombre());
-        if (gestorReservas.realizarReserva(reservaInfo2.getCliente(), reservaInfo2.getHabitacion(), reservaInfo2.getFechaInicio(), reservaInfo2.getFechaFin())) {
-            System.out.println("Reserva realizada con éxito");
-        } else {
-            System.out.println("No se pudo realizar la reserva");
-        }
-
-        // Caso donde la habitación ya está ocupada
-        System.out.println("Realizando reserva para " + reservaInfo3.getCliente().getNombre());
-        if (gestorReservas.realizarReserva(reservaInfo3.getCliente(), reservaInfo3.getHabitacion(), reservaInfo3.getFechaInicio(), reservaInfo3.getFechaFin())) {
-            System.out.println("Reserva realizada con éxito");
-        } else {
-            System.out.println("No se pudo realizar la reserva (habitación ocupada)");
-        }
-
-        // Caso con descuentos
         ReservaInfo reservaInfo4 = new ReservaInfo(cliente1, habitacionSuite, LocalDate.of(2023, 6, 1), LocalDate.of(2023, 6, 20)); // 19 días (20% de descuento)
-        System.out.println("Realizando reserva para " + reservaInfo4.getCliente().getNombre());
-        if (gestorReservas.realizarReserva(reservaInfo4.getCliente(), reservaInfo4.getHabitacion(), reservaInfo4.getFechaInicio(), reservaInfo4.getFechaFin())) {
-            System.out.println("Reserva realizada con éxito");
-        } else {
-            System.out.println("No se pudo realizar la reserva");
+
+        List<ReservaInfo> reservasInfo = List.of(reservaInfo1, reservaInfo2, reservaInfo3, reservaInfo4);
+
+        for (ReservaInfo reservaInfo : reservasInfo) {
+            System.out.println("Realizando reserva para " + reservaInfo.getCliente().getNombre());
+            if (gestorReservas.realizarReserva(reservaInfo.getCliente(), reservaInfo.getHabitacion(), reservaInfo.getFechaInicio(), reservaInfo.getFechaFin())) {
+                System.out.println("Reserva realizada con éxito por " + reservaInfo.getDias() + " días");
+            } else {
+                System.out.println("No se pudo realizar la reserva, la habitación está ocupada en esas fechas");
+            }
         }
 
-        System.out.println("Costo de la reserva para " + reservaInfo1.getCliente().getNombre() + ": " + gestorReservas.calcularCostoReserva(reservaInfo1));
-        System.out.println("Costo de la reserva para " + reservaInfo2.getCliente().getNombre() + ": " + gestorReservas.calcularCostoReserva(reservaInfo2));
-        System.out.println("Costo de la reserva para " + reservaInfo4.getCliente().getNombre() + " con descuento: " + gestorReservas.calcularCostoReserva(reservaInfo4));
+        for (Reserva reserva : reservas) {
+            double costo = gestorReservas.calcularCostoReserva(reserva);
+            boolean tieneDescuento = reserva.getHabitacion() instanceof HabitacionSuite && reservaInfo4.getDias() > 5;
+            System.out.println("Costo de la reserva para " + reserva.getCliente().getNombre() + ": " + costo + (tieneDescuento ? " (con descuento)" : ""));
+        }
     }
 }

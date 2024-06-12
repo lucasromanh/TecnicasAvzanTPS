@@ -1,6 +1,5 @@
 package com.hotel.service;
 
-import com.hotel.App;
 import com.hotel.model.Cliente;
 import com.hotel.model.HabitacionGeneral;
 import com.hotel.model.Reserva;
@@ -19,16 +18,27 @@ public class GestorReservas {
     }
 
     public boolean realizarReserva(Cliente cliente, HabitacionGeneral<?> habitacion, LocalDate fechaInicio, LocalDate fechaFin) {
+        for (Reserva reservaExistente : reservas) {
+            if (reservaExistente.getCliente().equals(cliente) &&
+                    reservaExistente.getHabitacion().equals(habitacion) &&
+                    reservaExistente.getFechaInicio().equals(fechaInicio) &&
+                    reservaExistente.getFechaFin().equals(fechaFin)) {
+                return false;
+            }
+        }
+
         if (gestorDisponibilidad.estaDisponible(habitacion, fechaInicio, fechaFin)) {
             Reserva reserva = new Reserva(cliente, habitacion, fechaInicio, fechaFin) {
                 @Override
                 public void cancelarReserva() {
-
+                    reservas.remove(this);
+                    cliente.eliminarReserva(this);
                 }
 
                 @Override
                 public void modificarFechas(LocalDate fechaInicio, LocalDate fechaFin) {
-
+                    this.setFechaInicio(fechaInicio);
+                    this.setFechaFin(fechaFin);
                 }
             };
             reservas.add(reserva);
@@ -38,7 +48,7 @@ public class GestorReservas {
         return false;
     }
 
-    public double calcularCostoReserva(App.ReservaInfo reservaInfo) {
+    public double calcularCostoReserva(Reserva reservaInfo) {
         long dias = ChronoUnit.DAYS.between(reservaInfo.getFechaInicio(), reservaInfo.getFechaFin());
         double costoBase = reservaInfo.getHabitacion().calcularCosto(reservaInfo.getFechaInicio(), reservaInfo.getFechaFin());
         double descuento = 0.0;

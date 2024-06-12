@@ -19,4 +19,8 @@ public class Cliente {
     public void agregarReserva(Reserva reserva) {
         reservas.add(reserva);
     }
+
+    public void eliminarReserva(Reserva reserva) {
+        reservas.remove(reserva);
+    }
 }
