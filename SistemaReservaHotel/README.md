@@ -83,5 +83,9 @@ La clase principal que gestiona el proyecto:
 ## Contribuciones
 Las contribuciones son bienvenidas. Por favor, abre un issue o envía un pull request para cualquier cambio.
 
+## Usos
+Porfa a quien le sirva, que lo use. pero modifiquen el código para que se adapte a sus necesidades.
+Y que no sean lineas iguales y nos afecte a todos
+
 ## Licencia
 Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
