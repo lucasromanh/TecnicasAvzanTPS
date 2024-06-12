@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.listacanciones.HelloController" spacing="10">
+    <children>
+        <ListView fx:id="listViewListas" prefHeight="200.0" />
+        <ListView fx:id="listViewCanciones" prefHeight="200.0" />
+        <GridPane hgap="10" vgap="10">
+            <children>
+                <Label text="Título:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                <TextField fx:id="tituloField" promptText="Título" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                <Label text="Artista:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                <TextField fx:id="artistaField" promptText="Artista" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                <Button text="Agregar Canción" fx:id="agregarButton" onAction="#onAgregarButtonClick" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+            </children>
+        </GridPane>
+        <HBox spacing="10">
+            <children>
+                <!-- Botón para crear una nueva lista -->
+                <Button text="Nueva Lista" fx:id="nuevaListaButton" onAction="#onNuevaListaButtonClick" />
+                <!-- Botón para buscar canciones en la lista seleccionada -->
+                <Button text="Buscar Canción" fx:id="buscarButton" onAction="#onBuscarButtonClick" />
+            </children>
+        </HBox>
+        <HBox spacing="10">
+            <children>
+                <!-- Botón para buscar canciones en la lista seleccionada -->
+                <Button text="Eliminar Canción" fx:id="eliminarButton" onAction="#onEliminarButtonClick" />
+            </children>
+        </HBox>
+    </children>
+</VBox>
