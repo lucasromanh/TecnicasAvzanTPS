@@ -1,4 +1,4 @@
-# Técnicas Avanzadas - UPateco
+# Técnicas Avanzadas - UPatecoRP
 
 ![Técnicas Avanzadas](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*IRFhWNqusUWbTsB1hQXhrQ.gif)
 
@@ -68,4 +68,4 @@ Este proyecto está bajo la Licencia MIT. Para más información, consulta el ar
 
 **Autor:** Lucas Roman
 
-**Universidad:** UPateco
+**Universidad:** UPatecoRP
